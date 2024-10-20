@@ -140,8 +140,12 @@ from tmp_videoclub as tmp
 inner join socios as s on tmp.dni = s.identificacion
 inner join copia_peliculas as cp on tmp.id_copia = cp.id_copia 
 
-
-
+insert into socios (nombre, apellidos, fecha_nacimiento, telefono, identificacion, id_direccion)
+select distinct  tmp.nombre, concat(tmp.apellido_1, ' ', tmp.apellido_2) as apellidos, cast(tmp.fecha_nacimiento as date), tmp.telefono,
+tmp.dni, dir.id_direccion
+from tmp_videoclub as tmp
+inner join direccion as dir on tmp.calle  = dir.calle  and tmp.numero = dir.numero 
+and tmp.piso = dir.piso  and tmp.ext = dir.ext and tmp.codigo_postal = dir.codigo_postal 
 
 select p.id_peliculas , p.titulo, d.nombre as director, g.nombre as genero, 
 count(cp.id_copia) as copias_disponibles
