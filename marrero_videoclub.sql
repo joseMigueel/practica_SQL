@@ -133,34 +133,18 @@ from tmp_videoclub as tmp
 on conflict (codigo_postal, calle, ext, numero, piso) do nothing; 
 select * from direccion d ;
 
-INSERT INTO socios (id_socio, nombre, apellidos, fecha_nacimiento, telefono, identificacion)
-select *
-from mar
-	
-
 
 insert into prestamo (fecha_alquiler, fecha_devolucion, id_socio, id_copia)
-select distinct tmp.fecha_alquiler ,tmp.fecha_devolucion, s.id_socio, c.id_copia 
-from tmp_videoclub as tmp 
+select distinct tmp.fecha_alquiler, tmp.fecha_devolucion, s.id_socio, cp.id_copia 
+from tmp_videoclub as tmp
 inner join socios as s on tmp.dni = s.identificacion
-inner join copia_peliculas as c on tmp.id_copia = c.id_copia;
-select * from prestamo p ;
-
-select * 
-from marrero.tmp_videoclub tv
-limit 10;
-
-select *
-from marrero.direccion
-
-select *
-from marrero.prestamo
+inner join copia_peliculas as cp on tmp.id_copia = cp.id_copia 
 
 
 
 
 select p.id_peliculas , p.titulo, d.nombre as director, g.nombre as genero, 
-count(cp.id_copia) AS copias_disponibles
+count(cp.id_copia) as copias_disponibles
 from peliculas as p
 inner join copia_peliculas as cp on p.id_peliculas = cp.id_pelicula 
 left join prestamo  as pres on cp.id_copia = pres.id_copia and pres.fecha_devolucion is null
